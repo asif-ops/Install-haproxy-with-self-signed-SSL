@@ -10,6 +10,7 @@
 8.	Troubleshoot 
 
 ##Implementation :
+
 *Update and install openssl::*
 ```
 apt-get update
@@ -30,9 +31,11 @@ haproxy -v //check version
 ```
 
 *Generating Self-Signed SSL Certificates for HAProxy Begin with generating private key::*
+
 `openssl genrsa -out /etc/ssl/private/haproxy.key 2048`
 
 *generate the Certificate signing request (CSR)::*
+
 `openssl req -new -key /etc/ssl/private/haproxy.key -out /etc/ssl/certs/haproxy.csr`
 
 *Create the Self Signed Certificate (CRT)::*
@@ -40,9 +43,11 @@ haproxy -v //check version
 openssl x509 -req -days 365 -in /etc/ssl/certs/haproxy.csr -signkey /etc/ssl/private/haproxy.key -out /etc/ssl/certs/haproxy.crt
 ```
 *Create SSL pem file by containing both the key and the certificate::*
+
 `cat /etc/ssl/private/haproxy.key /etc/ssl/certs/haproxy.crt >> /etc/ssl/certs/haproxy.pem`
 
 *Configure haproxy.cfg file:::*
+
 here at bind section specify the pem cert file location as showing yellow marked. Haprozy cfg file other file as usual 
 ```
 vi /etc/haproxy/haproxy.cfg
@@ -98,7 +103,9 @@ Nov 04 11:39:39 ip-10-0-0-101 systemd[1]: Starting HAProxy Load Balancer...
 Now browse loadbalancer URL IP to check https://IP
 ```
 *Troubleshoot :*
+
 run the command below to check the HAProxy configuration for any error.
+
 `haproxy -c -f /etc/haproxy/haproxy.cfg`
 
 
